@@ -17,22 +17,29 @@ public class LinkedListGUI<T> {
         textField = new JTextField(20);
 
         // Set the layout manager, add the components to the frame, etc.
-        // You need to add your components to the frame and set the frame visible.
+        // We need to add our components to the frame and set the frame visible.
     }
 
     private void addActionListeners(LinkedList<T> list) {
         addButton.addActionListener(e -> {
-            T value = (T) textField.getText();
+            // Parse the text to the appropriate type before adding it to the list
+            T value = parseText(textField.getText());
             list.add(value);
         });
 
         removeButton.addActionListener(e -> {
-            T value = (T) textField.getText();
+            // Parse the text to the appropriate type before removing it from the list
+            T value = parseText(textField.getText());
             list.remove(value);
         });
 
         clearButton.addActionListener(e -> {
             list.clear();
         });
+    }
+
+    private T parseText(String text) {
+        // Parse the text to the appropriate type and return it
+        // This will depend on what T is
     }
 }
