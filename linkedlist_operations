@@ -18,6 +18,7 @@ public class LinkedList<T> {
         size = 0;
     }
 
+
     // Method to add a node to the end of list
     public void add(T value) {
         // code here
@@ -39,7 +40,7 @@ public class LinkedList<T> {
     }
 
     // Method to get the size of the list
-    public T size() {
+    public int size() {
         // code here
     }
 
@@ -53,9 +54,8 @@ public class LinkedList<T> {
         // code here
     }
 
-
     // Method to get the element at a certain index
-    public int get(int index) {
+    public T get(int index) {
         // code here
     }
 
@@ -70,14 +70,7 @@ public class LinkedList<T> {
     }
 
     // Method to set the element at a certain index
-    public void set(int index, int value) {
-        // code here
-    }
-
-    // Method to get the size of the list
-    public T size() {
+    public void set(int index, T value) {
         // code here
     }
 }
-}
-
