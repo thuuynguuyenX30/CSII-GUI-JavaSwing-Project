@@ -1,0 +1,83 @@
+//LinkedList Node class
+class Node<T> {
+    T data;
+    Node<T> next;
+
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+//LinkedList Class
+public class LinkedList<T> {
+    Node<T> head;  // head of list
+    int size;      // size of list
+
+    public LinkedList() {
+        head = null;
+        size = 0;
+    }
+
+    // Method to add a node to the end of list
+    public void add(T value) {
+        // code here
+    }
+
+    // Method to remove the first occurrence of a certain value
+    public void remove(T value) {
+        // code here
+    }
+
+    // Method to remove all elements from the list
+    public void clear() {
+        // code here
+    }
+
+    // Method to check if the list contains a certain value
+    public boolean contains(T value) {
+        // code here
+    }
+
+    // Method to get the size of the list
+    public T size() {
+        // code here
+    }
+
+    // Method to check if the list is empty
+    public boolean isEmpty() {
+        // code here
+    }
+
+    // Method to add a node at the specified index
+    public void add(int index, T value) {
+        // code here
+    }
+
+
+    // Method to get the element at a certain index
+    public int get(int index) {
+        // code here
+    }
+
+    // Method to get the index of a certain value
+    public int indexOf(T value) {
+        // code here
+    }
+
+    // Method to remove the element at a certain index
+    public void removeAt(int index) {
+        // code here
+    }
+
+    // Method to set the element at a certain index
+    public void set(int index, int value) {
+        // code here
+    }
+
+    // Method to get the size of the list
+    public T size() {
+        // code here
+    }
+}
+}
+
