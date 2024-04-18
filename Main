@@ -1,0 +1,7 @@
+public class Main {
+    public static <T> void main(String[] args) {
+        LinkedList<T> list = new LinkedList<>();
+        LinkedListGUI<T> gui = new LinkedListGUI<>();
+        gui.addActionListeners(list);
+    }
+}
