@@ -1,1 +1,38 @@
+import javax.swing.*;
 
+public class LinkedListGUI<T> {
+    private JFrame frame;
+    private JButton addButton, removeButton, clearButton;
+    private JTextField textField;
+
+    public LinkedListGUI() {
+        initComponents();
+    }
+
+    private void initComponents() {
+        frame = new JFrame("LinkedList GUI");
+        addButton = new JButton("Add");
+        removeButton = new JButton("Remove");
+        clearButton = new JButton("Clear");
+        textField = new JTextField(20);
+
+        // Set the layout manager, add the components to the frame, etc.
+        // You need to add your components to the frame and set the frame visible.
+    }
+
+    private void addActionListeners(LinkedList<T> list) {
+        addButton.addActionListener(e -> {
+            T value = (T) textField.getText();
+            list.add(value);
+        });
+
+        removeButton.addActionListener(e -> {
+            T value = (T) textField.getText();
+            list.remove(value);
+        });
+
+        clearButton.addActionListener(e -> {
+            list.clear();
+        });
+    }
+}
