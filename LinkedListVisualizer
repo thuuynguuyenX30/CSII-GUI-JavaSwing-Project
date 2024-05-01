@@ -1,0 +1,130 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.util.LinkedList;
+
+public class LinkedListVisualizer extends JPanel {
+    private LinkedList<Integer> list = new LinkedList<>();
+    private int current = -1;
+    private JTextField textField;
+
+    public LinkedListVisualizer() {
+        JFrame frame = new JFrame("LinkedList Visualizer");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+
+        frame.add(this, BorderLayout.CENTER);
+
+        JPanel panel = new JPanel();
+        textField = new JTextField(10);
+        panel.add(textField);
+
+        addButton(panel, "Insert", e -> insert());
+        addButton(panel, "Delete", e -> delete());
+        addButton(panel, "Search", e -> search());
+        addButton(panel, "Sort", e -> sort());
+
+        JLabel instructions = new JLabel("Enter numbers separated by spaces");
+        panel.add(instructions);
+
+        frame.add(panel, BorderLayout.SOUTH);
+
+        frame.setVisible(true);
+    }
+
+    private void addButton(JPanel panel, String title, ActionListener listener) {
+        JButton button = new JButton(title);
+        button.addActionListener(listener);
+        panel.add(button);
+    }
+
+    public void insert() {
+        try {
+            String[] values = textField.getText().split(" ");
+            for (String value : values) {
+                list.add(Integer.parseInt(value));
+            }
+            current = list.size() - 1;
+            repaint();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input: " + e.getMessage());
+        }
+    }
+
+    public void delete() {
+        try {
+            int value = Integer.parseInt(textField.getText());
+            if (!list.removeFirstOccurrence(value)) {
+                JOptionPane.showMessageDialog(null, "Value not found in the list");
+            }
+            current = Math.min(current, list.size() - 1);
+            repaint();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input: " + e.getMessage());
+        }
+    }
+
+    public void search() {
+        try {
+            int value = Integer.parseInt(textField.getText());
+            current = list.indexOf(value);
+            if (current == -1) {
+                JOptionPane.showMessageDialog(null, "Value not found in the list");
+            }
+            repaint();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input: " + e.getMessage());
+        }
+    }
+
+    public void sort() {
+        list.sort(Integer::compareTo);
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = getWidth();
+        int height = getHeight();
+        int nodeSize = Math.min(width, height) / (list.size() + 1);
+
+        for (int i = 0; i < list.size(); i++) {
+            int x = (i + 1) * nodeSize;
+            int y = height / 2;
+            Ellipse2D.Double node = new Ellipse2D.Double(x, y, nodeSize, nodeSize);
+
+            // Set the color to pink and fill the node
+            g2.setColor(Color.PINK);
+            g2.fill(node);
+
+            // Set the color to black and draw the node outline
+            g2.setColor(Color.BLACK);
+            g2.draw(node);
+
+            // Draw the node value
+            g2.drawString(Integer.toString(list.get(i)), x + nodeSize / 2, y + nodeSize / 2);
+
+            // Highlight the current node
+            if (i == current) {
+                g2.setColor(Color.RED);
+                g2.draw(node);
+            }
+
+            // Draw the edge between nodes
+            if (i > 0) {
+                g2.setColor(Color.BLACK);
+                g2.drawLine(x - nodeSize, y + nodeSize / 2, x, y + nodeSize / 2);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new LinkedListVisualizer();
+    }
+}
