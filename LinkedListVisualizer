@@ -3,7 +3,180 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.util.LinkedList;
+
+// LinkedList Node class
+class Node<T> {
+    T data;
+    Node<T> next;
+
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// LinkedList Class
+class LinkedList<T extends Comparable<T>> {
+    Node<T> head; // head of list
+    int size; // size of list
+
+    public LinkedList() {
+        head = null;
+        size = 0;
+    }
+
+    // Method to add a node to the end of list
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+        size++;
+    }
+
+    // Method to remove the first occurrence of a certain value
+    public boolean remove(T value) {
+        if (head == null) {
+            return false;
+        }
+        if (head.data.equals(value)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+        Node<T> current = head;
+        while (current.next != null) {
+            if (current.next.data.equals(value)) {
+                current.next = current.next.next;
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    // Method to check if the list contains a certain value
+    public boolean contains(T value) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.data.equals(value)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    // Method to get the size of the list
+    public int size() {
+        return size;
+    }
+
+    // Method to get the index of a certain value
+    public int indexOf(T value) {
+        Node<T> current = head;
+        int index = 0;
+        while (current != null) {
+            if (current.data.equals(value)) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
+    }
+
+    // Method to perform merge sort on the linked list
+    public void mergeSort() {
+        head = mergeSortRecursive(head);
+    }
+
+    // Recursive method to perform merge sort on a sublist of the linked list
+    private Node<T> mergeSortRecursive(Node<T> node) {
+        // Base case: if the list is empty or has only one node, return the node
+        if (node == null || node.next == null) {
+            return node;
+        }
+
+        // Find the middle of the list
+        Node<T> middle = getMiddle(node);
+        Node<T> nextOfMiddle = middle.next;
+
+        // Split the list into two halves
+        middle.next = null;
+
+        // Apply merge sort to the first half
+        Node<T> left = mergeSortRecursive(node);
+
+        // Apply merge sort to the second half
+        Node<T> right = mergeSortRecursive(nextOfMiddle);
+
+        // Merge the sorted halves
+        return merge(left, right);
+    }
+
+    // Method to merge two sorted lists
+    private Node<T> merge(Node<T> left, Node<T> right) {
+        Node<T> result = null;
+
+        // Base cases
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+
+        // Choose the smaller value from either list and recur
+        if (left.data.compareTo(right.data) <= 0) {
+            result = left;
+            result.next = merge(left.next, right);
+        } else {
+            result = right;
+            result.next = merge(left, right.next);
+        }
+
+        return result;
+    }
+
+    // Helper method to find the middle node of the list
+    private Node<T> getMiddle(Node<T> node) {
+        if (node == null) {
+            return node;
+        }
+
+        Node<T> slow = node;
+        Node<T> fast = node;
+
+        // Move 'fast' pointer by two nodes and 'slow' pointer by one node
+        // When 'fast' reaches the end, 'slow' will be at the middle
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    // Method to get the value at a specific index
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    }
+}
 
 public class LinkedListVisualizer extends JPanel {
     private LinkedList<Integer> list = new LinkedList<>();
@@ -56,7 +229,7 @@ public class LinkedListVisualizer extends JPanel {
     public void delete() {
         try {
             int value = Integer.parseInt(textField.getText());
-            if (!list.removeFirstOccurrence(value)) {
+            if (!list.remove(value)) {
                 JOptionPane.showMessageDialog(null, "Value not found in the list");
             }
             current = Math.min(current, list.size() - 1);
@@ -80,8 +253,9 @@ public class LinkedListVisualizer extends JPanel {
     }
 
     public void sort() {
-        list.sort(Integer::compareTo);
-        repaint();
+        list.mergeSort(); // Perform merge sort
+        current = -1; // Reset current node
+        repaint(); // Update visualization
     }
 
     @Override
