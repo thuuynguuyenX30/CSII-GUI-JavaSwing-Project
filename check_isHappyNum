@@ -43,7 +43,7 @@ public class check_isHappyNum{
             int nextValue = getNext(current.data);
             if (nextValue ==1 || contains(head, nextValue)){
                 if (nextValue ==1){
-                    System.out.println("-->" + nextValue);
+                    System.out.println("-->" + nextValue + " Yay number is happy!");
                 }
                 else{
                     System.out.println("-->" + nextValue + "(cycle detected - Number is Unhappy :< )");
@@ -84,12 +84,12 @@ public class check_isHappyNum{
             slow = slow.next;
             fast = fast.next.next;
         }
-        System.out.println("true");
+        System.out.println("true - Yay number is happy!");
         return true;
     }
     public static void main(String[] args){
         check_isHappyNum num = new check_isHappyNum();
-        int number = 444;
+        int number = 19884;
         num.printHappySequence(number);
         System.out.println("Is " + number + " happy? "+ num.isHappy(number));
     }
