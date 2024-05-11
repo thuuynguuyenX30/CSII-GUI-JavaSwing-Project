@@ -70,7 +70,6 @@ public class check_isHappyNum{
 
     public boolean detect_cycle(){
         if (head == null){
-            System.out.println("Not happy number!");
             return false;
 
         }
@@ -78,18 +77,16 @@ public class check_isHappyNum{
         Node fast = head.next; 
         while (slow != fast){
             if (fast == null || fast.next == null){
-                System.out.println("Number is Unhappy :< ");
                 return false;
             }
             slow = slow.next;
             fast = fast.next.next;
         }
-        System.out.println("true - Yay number is happy!");
         return true;
     }
     public static void main(String[] args){
         check_isHappyNum num = new check_isHappyNum();
-        int number = 19884;
+        int number = 444;
         num.printHappySequence(number);
         System.out.println("Is " + number + " happy? "+ num.isHappy(number));
     }
