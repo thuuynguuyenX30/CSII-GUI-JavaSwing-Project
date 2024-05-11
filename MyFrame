@@ -1,0 +1,104 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class MyFrame extends JFrame {
+    public MyFrame() {
+        // Create the frame
+        JFrame frame = new JFrame("Happy Number Checker");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400); // Set the frame size (width x height)
+        //frame.setLocationRelativeTo(null); // Center the frame on the screen
+        frame.setLayout(new BorderLayout());
+        frame.setBackground(Color.GREEN);
+        // Create the left panel (for input and buttons)
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBounds(0, 0, 450, 400);
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setBackground(Color.PINK); // Set background color
+
+        // Add components to the left panel
+        String intro = "  Happy number: A positive integer is a number which \r\n"  +//
+                        "  eventually reaches 1 when replaced by the sum of the \r\n" + //
+                        "  square of each digit\r\n" + //
+                        // "\r\n" + //
+                        "  Example 1: n = 19 \r\n" + //
+                        "  Output: 19 is a happy number \r\n" + //
+                        "  Explain: 1^2 + 9^2 = 82; 8^2  + 2^2 = 68\r\n" +//
+                        "  6^2 + 8^2 = 100; 1^2 + 0^2 + 0^2 = 1";
+        
+        JTextArea introductionLabel = new JTextArea(intro);
+        introductionLabel.setEditable(false); // Make it read-only
+        introductionLabel.setLineWrap(true);
+        introductionLabel.setWrapStyleWord(true); 
+        introductionLabel.setFont( new Font("Serif", Font.BOLD, 16));
+        introductionLabel.setForeground(Color.PINK);
+        introductionLabel.setPreferredSize(new Dimension(450, 150));
+        introductionLabel.setBackground(Color.WHITE);
+        //Mode 1
+        JLabel mode1Label = new JLabel("Mode 1");
+        mode1Label.setFont(new Font("Arial", Font.BOLD, 17));
+        // Input box
+        JTextField inputField = new JTextField(10);
+        inputField.setMaximumSize(new Dimension(450, 100));
+        inputField.setText("Enter your valid number here"); // Initial text
+        inputField.isEditable();
+        // create a check button
+        JButton checkButton = new JButton("Check");
+        checkButton.setBackground(Color.GREEN); // Set button color
+        //Mode 2
+        JLabel mode2Label = new JLabel("Mode 2");
+        mode2Label.setFont(new Font("Arial", Font.BOLD, 17));
+        // create a generate button to get random number
+        JButton generateButton = new JButton("Generate Random Number");
+        generateButton.setBackground(Color.ORANGE); // Set button color
+        JLabel resultLabel = new JLabel("Result");
+        resultLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        JButton yesButton = new JButton("Yes");
+        yesButton.setBackground(Color.GREEN); 
+        JButton noButton = new JButton("No");
+        noButton.setBackground(Color.RED); 
+        JButton explainButton = new JButton("Explain");
+        JButton showAllButton = new JButton("Show All");
+        JButton highlightButton = new JButton("Highlight");
+        // add component in the left panel
+        leftPanel.add(introductionLabel);
+        leftPanel.add(Box.createHorizontalStrut(10));//put component at the center
+        leftPanel.add(Box.createVerticalStrut(20));// create a blank line between two component
+        leftPanel.add(mode1Label);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(inputField);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(checkButton);
+        leftPanel.add(Box.createVerticalStrut(100));
+        leftPanel.add(mode2Label);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(generateButton);
+        leftPanel.add(Box.createVerticalStrut(100));
+        leftPanel.add(resultLabel);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(yesButton);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(noButton);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(explainButton);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(showAllButton);
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(highlightButton);
+
+        //create right panel
+        JPanel rightPanel = new JPanel();
+        rightPanel.setBounds(0, 0, 450, 600);
+        rightPanel.setBackground(Color.lightGray);
+        //rightPanel.setBounds()
+        
+        frame.add(leftPanel, BorderLayout.WEST);
+        frame.add(rightPanel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new MyFrame();
+    }
+}
