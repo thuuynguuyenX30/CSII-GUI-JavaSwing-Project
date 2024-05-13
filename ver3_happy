@@ -327,27 +327,27 @@ public boolean isHappy(int n) {
 public void printHappySequence(int n) {
     head = new Node(n);
     Node current = head;
-    //String result = String.valueOf(current.data);
+    String result = String.valueOf(current.data);
     List<Integer> sequenceList = new ArrayList<>();
     sequenceList.add(current.data);
     while (true) {
         int nextValue = getNext(current.data);
         if (nextValue == 1 || contains(head, nextValue)) {
             sequenceList.add(nextValue);
-            // if (nextValue == 1) {
-            //     result += "-->" + nextValue + " Yay number is happy!";
-            // } else {
-            //     result += "-->" + nextValue + "(cycle detected - Number is Unhappy :< )";
-            // }
+            if (nextValue == 1) {
+                result += "-->" + nextValue + " Yay number is happy!";
+            } else {
+                result += "-->" + nextValue + "(cycle detected - Number is Unhappy :< )";
+            }
             break;
         }
-        //result += "-->" + nextValue;
+        result += "-->" + nextValue;
         current.next = new Node(nextValue);
         current = current.next;
         sequenceList.add(nextValue);
     }
     happyNumberPanel.setSequence(sequenceList);
-    //HappyNumber.getResultArea().append(result + "\n");
+    HappyNumber.getResultArea().append(result + "\n");
 }
 
 private boolean contains(Node head, int value) {
