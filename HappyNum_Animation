@@ -25,35 +25,40 @@ class HappyNumberPanel extends JPanel{
     public boolean drawCycleArrow = false;
     public boolean highlightCycleNode = false;
     private boolean drawToNull = false;
-    public HappyNumberPanel(){
+    
+    public HappyNumberPanel() {
         timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (nodeIndexToDraw < sequence.size()) {
                     nodeIndexToDraw++;
                     repaint();
-                } else if (nodeIndexToDraw == sequence.size()) {
-                    if (sequence.get(sequence.size() - 1) == 1 && !drawToNull) {
-                        drawToNull = true;
-                        repaint();
-                    } else if (!drawCycleArrow && cycleStartIndex != -1) {
-                        drawCycleArrow = true;
-                        repaint();
-                    } else if (drawCycleArrow && !highlightCycleNode) {
-                        highlightCycleNode = true;
-                        repaint();
-                    } else {
-                        timer.stop();
-                    }
+                } else if (sequence.get(sequence.size() - 1) == 1 && !drawToNull) {
+                    //khi last node = 1, set flag to null
+                    drawToNull = true;
+                    repaint();
+                } else if (drawToNull) {
+                    drawToNull = false; 
+                    timer.stop();
+                } else if (!drawCycleArrow && cycleStartIndex != -1) {
+                    drawCycleArrow = true;
+                    repaint();
+                } else if (drawCycleArrow && !highlightCycleNode) {
+                    highlightCycleNode = true;
+                    repaint();
+                } else {
+                    timer.stop();
                 }
             }
         });
     }
     
+    
     public void startDrawingSequence(){
         nodeIndexToDraw = 0;
         drawCycleArrow = false;
         highlightCycleNode = false;
+        drawToNull = false;
         timer.start();
     }
     @Override
