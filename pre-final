@@ -17,20 +17,21 @@ public class HappyNumber extends JFrame {
     private HappyNumberPanel happyNumberPanel; // panel to draw the sequence
 
     public HappyNumber() {
-        happyNumberPanel = new HappyNumberPanel();
-        checker = new check_isHappyNum(happyNumberPanel);
-        JFrame frame = new JFrame("Happy Number Checker");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(getWidth(), getHeight());
-        frame.setLayout(new BorderLayout());
-        frame.setBackground(Color.GREEN);
+        JPanel buttonPanel = new JPanel(); // create a panel to contain buttons and other input components
+        happyNumberPanel = new HappyNumberPanel(); // result panel that include the result area
+        checker = new check_isHappyNum(happyNumberPanel); // initialize the checker with the result panel
+        JFrame frame = new JFrame("Happy Number Checker"); //create the main application frame with the title "Happy Number Checker"
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        frame.setSize(getWidth(), getHeight()); //
+        frame.setLayout(new BorderLayout()); // set the layout manager for the JFrame is  BorderLayout
+        frame.setBackground(Color.PINK); // sets the background color of the JFrame to pink.
 
         // Create a panel to display instructions, input field, and buttons
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        leftPanel.setBounds(100, 100, 300, 400);
-        leftPanel.setBackground(new Color(254, 197, 216));
-        // Happy Number definition
+        
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); //set the layout manager for the buttonPanel is BoxLayout.Y_AXIS
+        buttonPanel.setBounds(100, 100, 300, 400); // set size for buttonPanel
+        buttonPanel.setBackground(new Color(254, 197, 216)); // set color
+        // Define the introduction text for Happy Number 
         String intro = "             \r\n" +
                 "       Happy number is a positive integer which \r\n" +
                 "       eventually reaches 1 when replaced by the sum of the \r\n" +
@@ -40,7 +41,7 @@ public class HappyNumber extends JFrame {
                 "            Explain: 1^2 + 9^2 = 82; 8^2  + 2^2 = 68\r\n" +
                 "            6^2 + 8^2 = 100; 1^2 + 0^2 + 0^2 = 1 \r\n" +
                 "             \r\n   ";
-
+        //Create and configure the introduction text area
         JTextArea introductionLabel = new JTextArea(intro);
         introductionLabel.setEditable(false);
         introductionLabel.setLineWrap(true);
@@ -49,25 +50,25 @@ public class HappyNumber extends JFrame {
         introductionLabel.setForeground(new Color(186, 28, 80));
         introductionLabel.setPreferredSize(new Dimension(450, 200));
         introductionLabel.setBackground(Color.WHITE);
-        introductionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        introductionLabel.setAlignmentX(Component.CENTER_ALIGNMENT); //set the position of text is in the central of text area
+        // Create and configure the mode 1: user input number and check 
         JLabel mode1Label = new JLabel("Happy Number Checker", SwingConstants.CENTER);
         mode1Label.setFont(new Font("Roboto", Font.BOLD, 17));
         mode1Label.setForeground(new Color(186, 28, 80));
         mode1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // Input field
+        // Create and configure the input field
         inputField = new JTextField();
-        inputField.setMaximumSize(new Dimension(175, 80));
+        inputField.setMaximumSize(new Dimension(175, 80)); // set the size for input field
         inputField.setText("Enter your valid number");
-
         inputField.setForeground(Color.GRAY);
+        //Implement a placeholder for the user identification input box
         inputField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
                 String input = inputField.getText();
                 if (input.length() > 0) {
-                    inputField.setText("");
-                    inputField.setForeground(Color.BLACK);
+                    inputField.setText(""); // when the user click to the input field, the initial text is displace by a blank space
+                    inputField.setForeground(Color.BLACK); // change the color of input number into BLACK
                 }
             }
 
@@ -75,34 +76,37 @@ public class HappyNumber extends JFrame {
             public void focusLost(FocusEvent e) {
                 if (inputField.getText().isEmpty()) {
                     inputField.setForeground(Color.GRAY);
-                    inputField.setText("Enter your valid number");
+                    inputField.setText("Enter your valid number"); // The initial text displays in the text area
                 }
             }
         });
-
+        // Configure the input field
         inputField.setFont(new Font("Serif", Font.BOLD, 15));
         inputField.setBackground(Color.WHITE);
         inputField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         inputField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        // check button
+        // Create and configure the check button
         JButton checkButton = new JButton("Check");
         checkButton.setBackground(new Color(0x1BC444));
         checkButton.setFocusPainted(false); // Remove focus border
         checkButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Define the behavior in response to the check button click
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     int number = Integer.parseInt(inputField.getText());
-                    checker.printHappySequence(number);
+                    //call happy number checking method
+                    checker.printHappySequence(number); 
                 } catch (NumberFormatException ex) {
+                    // throw a message if the input is invalid
                     JOptionPane.showMessageDialog(null, "Please enter a valid integer less than 6 digits.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-
-        JLabel mode2Label = new JLabel("Challenge Yourself!");
+        // Mode 2: Generate random number and guess whether the happy number or not 
+        JLabel mode2Label = new JLabel("Challenge Yourself!"); // title of mode 2
         mode2Label.setFont(new Font("Roboto", Font.BOLD, 17));
         mode2Label.setForeground(new Color(186, 28, 80));
         mode2Label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -111,10 +115,11 @@ public class HappyNumber extends JFrame {
         generateButton.setFocusPainted(false);
         generateButton.setBackground(new Color(0xFE6C2B));
         generateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Define the behavior in response to the generate button click
         generateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                randomNumber = (int) (Math.random() * 1000);
+                randomNumber = (int) (Math.random() * 1000); // generates a random integer between 0 and 999 and assigns it to the variable randomNumber.
                 inputField.setText(String.valueOf(randomNumber));
             }
         });
@@ -123,10 +128,9 @@ public class HappyNumber extends JFrame {
         resultLabel.setFont(new Font("Arial", Font.BOLD, 17));
         resultLabel.setForeground(new Color(186, 28, 80));
         resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        // Create and configure the yes/no button for checking the result using JRadioButton to ensure that only one answer is chosen
         JRadioButton yesButton = new JRadioButton("Yes");
         JRadioButton noButton = new JRadioButton("No");
-
         ButtonGroup group = new ButtonGroup();
         group.add(yesButton);
         group.add(noButton);
@@ -160,28 +164,26 @@ public class HappyNumber extends JFrame {
                 }
             }
         });
-        // Add components & buttons to the left panel
-        leftPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 6));
-        leftPanel.add(introductionLabel);
-        leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(mode1Label);
-        leftPanel.add(Box.createVerticalStrut(35));
-        leftPanel.add(inputField);
-        leftPanel.add(Box.createVerticalStrut(25));
-        leftPanel.add(checkButton);
-        leftPanel.add(Box.createVerticalStrut(60));
-        leftPanel.add(mode2Label);
-        leftPanel.add(Box.createVerticalStrut(30));
-        leftPanel.add(generateButton);
-        leftPanel.add(Box.createVerticalStrut(70));
-        leftPanel.add(resultLabel);
-        leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(yesButton);
-        leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(noButton);
-        leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(Box.createVerticalStrut(20));
-        leftPanel.add(Box.createVerticalStrut(20));
+        // Add components & buttons to the left panel and adjust their positions
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 6)); // create a border line for panel
+        buttonPanel.add(introductionLabel);
+        buttonPanel.add(Box.createVerticalStrut(20)); //creates an invisible component has size of 20 pixels implied to create space between components
+        buttonPanel.add(mode1Label);
+        buttonPanel.add(Box.createVerticalStrut(35));
+        buttonPanel.add(inputField);
+        buttonPanel.add(Box.createVerticalStrut(25));
+        buttonPanel.add(checkButton);
+        buttonPanel.add(Box.createVerticalStrut(60));
+        buttonPanel.add(mode2Label);
+        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(generateButton);
+        buttonPanel.add(Box.createVerticalStrut(70));
+        buttonPanel.add(resultLabel);
+        buttonPanel.add(Box.createVerticalStrut(40));
+        buttonPanel.add(yesButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(noButton);
+        buttonPanel.add(Box.createVerticalStrut(100));
         // Add title in the right panel
         JLabel rightLabel = new JLabel("Happy Number Checker", SwingConstants.CENTER);
         rightLabel.setFont(new Font("Roboto", Font.BOLD, 60));
@@ -189,14 +191,14 @@ public class HappyNumber extends JFrame {
         rightLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         happyNumberPanel.add(rightLabel);
         happyNumberPanel.setBackground(new Color(255, 236, 233));
-        frame.add(leftPanel, BorderLayout.WEST);
+        // add 2 bigs panel in frame
+        frame.add(buttonPanel, BorderLayout.WEST);
         frame.add(happyNumberPanel, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
-        // change
-        frame.setResizable(false);
+        frame.setResizable(false); //fixed the size of frame 
         frame.setLocationRelativeTo(null);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // set the frame to the maximum size of the screen to maximize visibility
     }
 
     public static void main(String[] args) {
